@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-  // 1. constrói https://<domínio-atual>/login
-  const loginUrl = new URL("/login", req.url);
+export async function POST() {
+  const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+  const loginUrl = new URL("/login", baseUrl);
 
-  // 2. faz o redirect usando a URL absoluta
-  const response = NextResponse.redirect(loginUrl);  // 307 por padrão
+  const response = NextResponse.redirect(loginUrl);
 
-  // 3. apaga o cookie
   response.cookies.set("token", "", {
     path: "/",
     httpOnly: true,
