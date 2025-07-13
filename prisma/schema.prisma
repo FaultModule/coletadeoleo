@@ -7,17 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id            Int      @id @default(autoincrement())
-  first_name    String
-  last_name     String
-  email         String   @unique
-  phone         String
+model User {
+  id            Int          @id @default(autoincrement())
+  first_name    String       @db.VarChar(100)
+  last_name     String       @db.VarChar(100)
+  email         String       @unique @db.VarChar(255)
+  phone         String?      @db.VarChar(25)
   password_hash String
-  address       String
-  cep           String
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  address       String?
+  balance       Decimal?     @default(0) @db.Decimal(12, 2)
+  created_at    DateTime?    @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime?    @default(now()) @db.Timestamptz(6)
+  cep           String       @default("") @db.VarChar(10)
+  collections   Collection[]
 
   @@map("users")
+}
+
+model Collection {
+  id              Int       @id @default(autoincrement())
+  user_id         Int
+  quantity_liters Float
+  status          String?   @default("Pendente")
+  address         String
+  created_at      DateTime? @default(now()) @db.Timestamp(6)
+  user            User      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("collections")
 }

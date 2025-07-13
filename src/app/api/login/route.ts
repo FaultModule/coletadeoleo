@@ -1,12 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { NextRequest } from 'next/server'
 
 const prisma = new PrismaClient();
 
 const SECRET = process.env.JWT_SECRET || "segredo-temporario";
 
-export async function POST(req) {
+
+export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
   const user = await prisma.user.findUnique({ where: { email } });
