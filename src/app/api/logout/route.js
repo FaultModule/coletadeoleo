@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function POST() {
-  const response = NextResponse.redirect(new URL("/login", "https://coletadeoleo.vercel.app"));
+  const response = NextResponse.redirect("/login");
 
   // Apagar o cookie 'token'
   response.cookies.set("token", "", {
