@@ -1,6 +1,5 @@
 'use client';
 import './chatBotLauncher.css';
-import Image from 'next/image';
 
 export default function ChatBotLauncher(){
     return (
